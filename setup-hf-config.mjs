@@ -57,7 +57,11 @@ if (fs.existsSync(configPath)) {
 }
 
 // 1. Config Gemini provider using Setsuna Gateway Proxy or directly if key is on Space
-const setsunaUrl = process.env.SETSUNA_GATEWAY_URL?.trim();
+// 加入自動容錯機制，確保 URL 開頭有 https://
+let setsunaUrl = process.env.SETSUNA_GATEWAY_URL?.trim();
+if (setsunaUrl && !setsunaUrl.startsWith('http://') && !setsunaUrl.startsWith('https://')) {
+  setsunaUrl = 'https://' + setsunaUrl;
+}
 
 if (setsunaUrl) {
   if (!config.models) config.models = {};
