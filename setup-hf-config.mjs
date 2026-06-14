@@ -57,7 +57,6 @@ if (fs.existsSync(configPath)) {
 }
 
 // 1. Config Gemini provider using Setsuna Gateway Proxy or directly if key is on Space
-// 加入自動容錯機制，確保 URL 開頭有 https://
 let setsunaUrl = process.env.SETSUNA_GATEWAY_URL?.trim();
 if (setsunaUrl && !setsunaUrl.startsWith('http://') && !setsunaUrl.startsWith('https://')) {
   setsunaUrl = 'https://' + setsunaUrl;
@@ -153,6 +152,8 @@ config.agents.defaults.memorySearch.enabled = false;
 // 4. Browser config (Sandbox-free arguments to prevent container suspensions)
 if (!config.browser) config.browser = {};
 config.browser.noSandbox = true;
+config.browser.headless = true;
+config.browser.defaultProfile = "openclaw";
 
 fs.mkdirSync(stateDir, { recursive: true });
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
