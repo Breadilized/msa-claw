@@ -5,14 +5,15 @@ FROM mcr.microsoft.com/playwright:v1.49.0-jammy
 ARG OPENCLAW_REPO=https://github.com/Josephrp/openclaw.git
 ARG OPENCLAW_REF=hf-spaces
 
-# Install Bun (needed for some build scripts) - Added unzip here
+# Install Bun (needed for some build scripts)
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git ca-certificates unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/* \
     && curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
-RUN corepack enable
+# 繞過 Corepack，直接透過 npm 安裝 pnpm，解決簽章驗證失敗的問題
+RUN npm install -g pnpm
 
 WORKDIR /app
 
