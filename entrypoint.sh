@@ -9,8 +9,8 @@ else
   mkdir -p "$OPENCLAW_HOME/.openclaw"
 fi
 
-# 1.5 Optimize Node.js memory footprint for low-RAM containers (移除不相容的 --optimize-for-size)
-export NODE_OPTIONS="--max-old-space-size=450"
+# 1.5 Optimize Node.js memory footprint for 1GB RAM containers (調高至 800MB 確保順利啟動)
+export NODE_OPTIONS="--max-old-space-size=800"
 
 # 2. Run the config setup script to initialize openclaw.json with Google Proxy and auth
 node /app/setup-hf-config.mjs
