@@ -17,9 +17,9 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-# Clone OpenClaw and build
+# Clone OpenClaw and build - 改用 --no-frozen-lockfile 允許動態補齊 Linux 原生依賴
 RUN git clone --depth 1 --branch "${OPENCLAW_REF}" "${OPENCLAW_REPO}" . \
-    && pnpm install --frozen-lockfile \
+    && pnpm install --no-frozen-lockfile \
     && pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
 RUN pnpm ui:build
