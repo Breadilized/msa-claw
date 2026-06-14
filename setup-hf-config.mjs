@@ -62,6 +62,7 @@ let setsunaUrl = process.env.SETSUNA_GATEWAY_URL?.trim();
 if (setsunaUrl && !setsunaUrl.startsWith('http://') && !setsunaUrl.startsWith('https://')) {
   setsunaUrl = 'https://' + setsunaUrl;
 }
+console.log(`[setup-hf-config] Configured Setsuna Gateway URL: ${setsunaUrl || 'Not Configured'}`);
 
 if (setsunaUrl) {
   if (!config.models) config.models = {};
