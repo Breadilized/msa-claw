@@ -17,10 +17,11 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-# Clone OpenClaw and build - 刪除 pnpm-lock.yaml 強制從頭解析 Linux 的依賴檔
+# Clone OpenClaw and build - 強制添加 @rolldown/binding-linux-x64-gnu
 RUN git clone --depth 1 --branch "${OPENCLAW_REF}" "${OPENCLAW_REPO}" . \
     && rm -f pnpm-lock.yaml \
     && pnpm install \
+    && pnpm add -w -D @rolldown/binding-linux-x64-gnu \
     && pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
 RUN pnpm ui:build
