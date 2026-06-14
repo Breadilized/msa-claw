@@ -143,7 +143,7 @@ if (allowedOrigins.length > 0) {
 if (!config.agents) config.agents = {};
 if (!config.agents.defaults) config.agents.defaults = {};
 if (!config.agents.defaults.memorySearch) config.agents.defaults.memorySearch = {};
-config.agents.defaults.memorySearch.provider = "none";
+config.agents.defaults.memorySearch.enabled = false;
 
 // 4. Browser config (Sandbox-free arguments to prevent container suspensions)
 if (!config.browser) config.browser = {};
