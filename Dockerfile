@@ -17,9 +17,10 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-# Clone OpenClaw and build - 改用 --no-frozen-lockfile 允許動態補齊 Linux 原生依賴
+# Clone OpenClaw and build - 刪除 pnpm-lock.yaml 強制從頭解析 Linux 的依賴檔
 RUN git clone --depth 1 --branch "${OPENCLAW_REF}" "${OPENCLAW_REPO}" . \
-    && pnpm install --no-frozen-lockfile \
+    && rm -f pnpm-lock.yaml \
+    && pnpm install \
     && pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
 RUN pnpm ui:build
