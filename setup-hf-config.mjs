@@ -25,7 +25,7 @@ function readGatewayToken() {
 }
 
 const gatewayToken = readGatewayToken();
-const gatewayPassword = process.env.OPENCLAW_GATEWAY_PASSWORD?.trim();
+const gatewayPassword = process.env.OPENCLAW_GATEWAY_PASSWORD?.trim() || process.env.GATEWAY_PASSWORD?.trim();
 
 // Trusted proxies
 const DEFAULT_HF_TRUSTED_PROXY_IPS = [
@@ -58,7 +58,6 @@ if (fs.existsSync(configPath)) {
 
 // 1. Config Gemini provider using Setsuna Gateway Proxy or directly if key is on Space
 const setsunaUrl = process.env.SETSUNA_GATEWAY_URL?.trim();
-const gatewayPassword = process.env.OPENCLAW_GATEWAY_PASSWORD?.trim() || process.env.GATEWAY_PASSWORD?.trim();
 
 if (setsunaUrl) {
   if (!config.models) config.models = {};
