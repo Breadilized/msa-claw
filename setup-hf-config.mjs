@@ -139,6 +139,12 @@ if (allowedOrigins.length > 0) {
   config.gateway.controlUi.allowedOrigins = allowedOrigins;
 }
 
+// 3.5 Disable memory search vector provider to keep memory footprint low
+if (!config.agents) config.agents = {};
+if (!config.agents.defaults) config.agents.defaults = {};
+if (!config.agents.defaults.memorySearch) config.agents.defaults.memorySearch = {};
+config.agents.defaults.memorySearch.provider = "none";
+
 // 4. Browser config (Sandbox-free arguments to prevent container suspensions)
 if (!config.browser) config.browser = {};
 config.browser.noSandbox = true;
