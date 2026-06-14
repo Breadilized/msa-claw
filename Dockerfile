@@ -7,7 +7,11 @@ ARG OPENCLAW_REF=hf-spaces
 
 # Upgrade Node.js to >=22.12.0 using NodeSource and install Bun
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl git ca-certificates unzip && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl git ca-certificates unzip gnupg && \
+    curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends google-chrome-stable && \
     apt-get purge -y nodejs npm && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
@@ -15,12 +19,11 @@ RUN apt-get update && \
     && curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
-# 繞過 Corepack，直接透過 npm 安裝 pnpm，解決簽章驗證失敗的問題
 RUN npm install -g pnpm
 
 WORKDIR /app
 
-# Clone OpenClaw and build - 精確指定安裝 @rolldown/binding-linux-x64-gnu@1.0.0-rc.3
+# Clone OpenClaw and build
 RUN git clone --depth 1 --branch "${OPENCLAW_REF}" "${OPENCLAW_REPO}" . \
     && rm -f pnpm-lock.yaml \
     && pnpm install \
